@@ -17,6 +17,7 @@ method Univers constructor {parent noyau canvasMap canvasMiniMap} {
    this inherited $parent ${objName}_abst
    
    Planete ${objName}_planetetest $objName 10 10 10 10 $noyau $canvasMap $canvasMiniMap
+   Planete ${objName}_planetetest2 $objName 20 20 20 20 $noyau $canvasMap $canvasMiniMap
 }
 
 method Univers destructor {} {

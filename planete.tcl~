@@ -21,7 +21,7 @@ method Planete constructor {parent rayon x y densite noyau canvasMap canvasMiniM
    this inherited $parent ${objName}_abst
    
    PlaneteMap ${objName}_presMap $objName $canvasMap $x $y $rayon
-   PlaneteMiniMap ${objName}_presMiniMap $objName $canvasMiniMap $x $y $rayon
+   PlaneteMiniMap ${objName}_presMap $objName $canvasMiniMap $x $y $rayon
 }
 
 method Planete destructor {} {
