@@ -17,7 +17,7 @@ method Jeu constructor {parent} {
    JeuP ${objName}_pres $objName
    this inherited $parent ${objName}_abst ${objName}_pres
    
-   Univers ${objName}_univ $objName ${objName}_abst(noyau) [${objName}_pres attribute canvasMap]
+   Univers ${objName}_univ $objName ${objName}_abst(noyau) [${objName}_pres attribute canvasMap] [${objName}_pres attribute canvasMiniMap]
 }
 
 method Jeu destructor {} {

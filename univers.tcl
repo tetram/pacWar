@@ -12,11 +12,11 @@ method UniversA constructor {control noyau} {
 
 # Controlleur Univers
 inherit Univers Control
-method Univers constructor {parent noyau canvas} {
+method Univers constructor {parent noyau canvasMap canvasMiniMap} {
    UniversA ${objName}_abst $objName $noyau
    this inherited $parent ${objName}_abst
    
-   Planete ${objName}_planetetest $objName 10 10 10 10 $noyau $canvas
+   Planete ${objName}_planetetest $objName 10 10 10 10 $noyau $canvasMap $canvasMiniMap
 }
 
 method Univers destructor {} {

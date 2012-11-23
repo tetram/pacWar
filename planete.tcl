@@ -16,11 +16,12 @@ method PlaneteA constructor {control rayon x y densite noyau} {
 
 # Controlleur Planete
 inherit Planete Control
-method Planete constructor {parent rayon x y densite noyau canvas} {
+method Planete constructor {parent rayon x y densite noyau canvasMap canvasMiniMap} {
    PlaneteA ${objName}_abst $objName $rayon $x $y $densite $noyau
    this inherited $parent ${objName}_abst
    
-   Pres_Map ${objName}_presMap $objName $canvas $x $y $rayon
+   PlaneteMap ${objName}_presMap $objName $canvasMap $x $y $rayon
+   PlaneteMiniMap ${objName}_presMiniMap $objName $canvasMiniMap $x $y $rayon
 }
 
 method Planete destructor {} {
@@ -28,28 +29,43 @@ method Planete destructor {} {
 }
 
 
-# Agent Pres_MiniMap
+# Agent PlaneteMiniMap
 
-	# Controlleur Pres_MiniMap
-	
-	# Presentation Pres_MiniMap
-
-# Agent Pres_Map
-
-	# Controlleur Pres_Map
-	inherit Pres_Map Control
-	method Pres_Map constructor {parent canvas x y radius} {
-	   Pres_MapP ${objName}_pres $objName $canvas $x $y $radius
+	# Controlleur PlaneteMiniMap
+	inherit PlaneteMiniMap Control
+	method PlaneteMiniMap constructor {parent canvas x y radius} {
+	   PlaneteMiniMapP ${objName}_pres $objName $canvas $x $y $radius
 	   this inherited $parent ${objName}_abst
 	}
 
-	method Pres_Map destructor {} {
+	method PlaneteMiniMap destructor {} {
 	   this inherited
 	}
 	
-	# Presentation Pres_Map
-	inherit Pres_MapP Presentation
-	method Pres_MapP constructor {control canvas x y radius} {
+	# Presentation PlaneteMiniMap
+	inherit  PlaneteMiniMapP Presentation
+	method  PlaneteMiniMapP constructor {control canvas x y radius} {
+	   this inherited $control
+	   
+	   $canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill green
+	}
+
+# Agent PlaneteMap
+
+	# Controlleur PlaneteMap
+	inherit PlaneteMap Control
+	method PlaneteMap constructor {parent canvas x y radius} {
+	   PlaneteMapP ${objName}_pres $objName $canvas $x $y $radius
+	   this inherited $parent ${objName}_abst
+	}
+
+	method PlaneteMap destructor {} {
+	   this inherited
+	}
+	
+	# Presentation PlaneteMap
+	inherit PlaneteMapP Presentation
+	method PlaneteMapP constructor {control canvas x y radius} {
 	   this inherited $control
 	   
 	   $canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill green
