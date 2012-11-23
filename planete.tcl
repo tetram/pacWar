@@ -12,12 +12,15 @@ method PlaneteA constructor {control rayon x y densite noyau} {
    set this(noyau) $noyau
 }
 
+#TODO ajouter planete au noyau
+
 # Controlleur Planete
 inherit Planete Control
 method Planete constructor {parent rayon x y densite noyau canvas} {
    PlaneteA ${objName}_abst $objName $rayon $x $y $densite $noyau
-   Pres_Map ${objName}_presMap $objName $canvas $x $y $radius
    this inherited $parent ${objName}_abst
+   
+   Pres_Map ${objName}_presMap $objName $canvas $x $y $rayon
 }
 
 method Planete destructor {} {
@@ -35,8 +38,8 @@ method Planete destructor {} {
 
 	# Controlleur Pres_Map
 	inherit Pres_Map Control
-	method Pres_Map constructor {parent canvas} {
-	   Pres_MapP ${objName}_pres $objName $canvas
+	method Pres_Map constructor {parent canvas x y radius} {
+	   Pres_MapP ${objName}_pres $objName $canvas $x $y $radius
 	   this inherited $parent ${objName}_abst
 	}
 

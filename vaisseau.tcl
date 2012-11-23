@@ -12,8 +12,8 @@ method VaisseauA constructor {control x y radius joueur noyau} {
    set this(noyau) $noyau
 }
 
-method VaisseauA addVaisseauToNoyau{} {
-	[$this(noyau) Add_new_ship $this(joueur) $this(x) $this(y) $this(radius)]
+method VaisseauA addVaisseauToNoyau {} {
+	set this(id) [$this(noyau) Add_new_ship $this(joueur) $this(x) $this(y) $this(radius)]
 }
 
 # Controlleur Vaisseau

@@ -16,7 +16,7 @@ method Univers constructor {parent noyau canvas} {
    UniversA ${objName}_abst $objName $noyau
    this inherited $parent ${objName}_abst
    
-   Planete test 10 10 10 10 $noyau $canvas
+   Planete ${objName}_planetetest $objName 10 10 10 10 $noyau $canvas
 }
 
 method Univers destructor {} {

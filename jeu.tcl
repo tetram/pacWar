@@ -6,7 +6,7 @@ source SWL_FC.tcl
 inherit JeuA Abstraction
 method JeuA constructor {control} {
    this inherited $control
-   set this(noyau) [SWL_FC S]
+   set this(noyau) [SWL_FC S_$objName]
 }
 
 
@@ -17,7 +17,7 @@ method Jeu constructor {parent} {
    JeuP ${objName}_pres $objName
    this inherited $parent ${objName}_abst ${objName}_pres
    
-   Univers ${objName}_univ $objName ${objName}_abst(noyau) ${objName}_pres(canvasMap)
+   Univers ${objName}_univ $objName ${objName}_abst(noyau) [${objName}_pres attribute canvasMap]
 }
 
 method Jeu destructor {} {
@@ -42,7 +42,8 @@ method JeuP constructor {control} {
    pack $this(frameInfos) -expand 1 -side left
 }
 
-method ValueP destructor {} {
+
+method JeuP destructor {} {
 	destroy $this(frameInfos)
 	destroy $this(canvasMiniMap)
 	destroy $this(canvasMap)
