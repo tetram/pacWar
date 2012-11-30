@@ -20,7 +20,6 @@ method Joueur constructor {parent nom noyau} {
    ${objName}_abst addJoueurToNoyau
 }
 
-method Joueur destructor {} {
+method Joueur dispose {} {
    this inherited
-   #TODO : supprimer du noyau avant ?
 }

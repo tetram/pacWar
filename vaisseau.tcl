@@ -17,14 +17,16 @@ method VaisseauA addVaisseauToNoyau {} {
 
 # Controlleur Vaisseau
 inherit Vaisseau Control
-method Vaisseau constructor {parent x y radius joueur noyau} {
+method Vaisseau constructor {parent x y radius joueur color noyau canvasMap canvasMiniMap} {
    VaisseauA ${objName}_abst $objName $x $y $radius $joueur $noyau
    this inherited $parent ${objName}_abst
    
    ${objName}_abst addVaisseauToNoyau
+   VaisseauMap ${objName}_presMap $objName $x $y $radius $color $canvasMap
+   VaisseauMiniMap ${objName}_presMiniMap $objName $x $y $radius $color $canvasMiniMap
 }
 
-method Vaisseau destructor {} {
+method Vaisseau dispose {} {
    this inherited
    #TODO : supprimer du noyau avant ?
 }
@@ -33,53 +35,43 @@ method Vaisseau destructor {} {
 	# Controlleur Pres_MiniMap
 	inherit VaisseauMiniMap Control
 	
-	method VaisseauMiniMap constructor {parent canevas} {
-	    VaisseauMiniMapP ${objName}_pres $objName 
-	    this inherited $parent
-	    set this(miniMap) $canevas
+	method VaisseauMiniMap constructor {parent x y radius color canvas} {
+	    VaisseauMiniMapP ${objName}_pres $objName $x $y $radius $color $canvas
+	    this inherited $parent ${objName}_pres
+	    set this(miniMap) $canvas
 	}
 
-    method VaisseauMiniMap change {x y radius color} {
-        $this(presentation) change x y radius color
-    }
 	
 	# Presentation Pres_MiniMap
-	inherit VaisseauMiniMapP Presentation
-	
-	method VaisseauMiniMapP constructor {control} {
+    inherit VaisseauMiniMapP Presentation
+	method VaisseauMiniMapP constructor {control x y radius color canvas} {
 	    this inherited $control
-	}
-	
-	method VaisseauMiniMapP change {x y radius color} {
-	    $canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill $color
+		$canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill $color -tags [list element $objName $control]
 	}
 
+	method VaisseauMiniMapP move {canvas control x y} {
+	    $canvas move $control $x $y
+	}
 
 # Agent Pres_Map
 
 	# Controlleur Pres_Map
 	inherit VaisseauMap Control
-	
-	method VaisseauMap constructor {parent canevas} {
-	    VaisseauMapP ${objName}_pres $objName 
-	    this inherited $parent
-	    set this(miniMap) $canevas
+	method VaisseauMap constructor {parent x y radius color canvas} {
+	    VaisseauMapP ${objName}_pres $objName $x $y $radius $color $canvas
+	    this inherited $parent ${objName}_pres
+	    set this(Map) $canvas
 	}
 
-    method VaisseauMap change {x y radius color} {
-        $this(presentation) change x y radius color
-    }
-	
-	
 	# Presentation Pres_Map
     inherit VaisseauMapP Presentation
-	
-	method VaisseauMapP constructor {control} {
+	method VaisseauMapP constructor {control x y radius color canvas} {
 	    this inherited $control
+		$canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill $color -tags [list element $objName $control]
 	}
-	
-	method VaisseauMapP change {x y radius color} {
-	    $canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill $color
+
+	method VaisseauMapP move {canvas control x y} {
+	    $canvas move $control $x $y
 	}
 
 # Agent Pres_Info

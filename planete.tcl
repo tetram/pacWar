@@ -11,22 +11,23 @@ method PlaneteA constructor {control rayon x y densite noyau} {
    set this(noyau) $noyau
 }
 
-#TODO ajouter planete au noyau
+method PlaneteA addPlaneteToNoyau {} {
+	set this(id) [$this(noyau) Add_new_planet $this(x) $this(y) $this(rayon) $this(densite)]
+}
 
 # Controlleur Planete
 inherit Planete Control
 method Planete constructor {parent rayon x y densite noyau canvasMap canvasMiniMap} {
    PlaneteA ${objName}_abst $objName $rayon $x $y $densite $noyau
    this inherited $parent ${objName}_abst
-   
+   ${objName}_abst addPlaneteToNoyau
    PlaneteMap ${objName}_presMap $objName $canvasMap $x $y $rayon
    PlaneteMiniMap ${objName}_presMiniMap $objName $canvasMiniMap $x $y $rayon
 }
 
-method Planete destructor {} {
+method Planete dispose {} {
    this inherited
 }
-
 
 # Agent PlaneteMiniMap
 
@@ -34,10 +35,10 @@ method Planete destructor {} {
 	inherit PlaneteMiniMap Control
 	method PlaneteMiniMap constructor {parent canvas x y radius} {
 	   PlaneteMiniMapP ${objName}_pres $objName $canvas $x $y $radius
-	   this inherited $parent ${objName}_abst
+	   this inherited $parent ${objName}_pres
 	}
 
-	method PlaneteMiniMap destructor {} {
+	method PlaneteMiniMap dispose {} {
 	   this inherited
 	}
 	
@@ -46,7 +47,7 @@ method Planete destructor {} {
 	method  PlaneteMiniMapP constructor {control canvas x y radius} {
 	   this inherited $control
 	   
-	   $canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill green
+	   $canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill green -tags [list element $objName $control]
 	}
 
 # Agent PlaneteMap
@@ -55,10 +56,10 @@ method Planete destructor {} {
 	inherit PlaneteMap Control
 	method PlaneteMap constructor {parent canvas x y radius} {
 	   PlaneteMapP ${objName}_pres $objName $canvas $x $y $radius
-	   this inherited $parent ${objName}_abst
+	   this inherited $parent ${objName}_pres
 	}
 
-	method PlaneteMap destructor {} {
+	method PlaneteMap dispose {} {
 	   this inherited
 	}
 	

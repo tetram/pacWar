@@ -3,6 +3,7 @@ source PAC.tcl
 source univers.tcl
 source info.tcl
 source SWL_FC.tcl
+source joueur.tcl
 
 # Abstraction
 inherit JeuA Abstraction
@@ -20,10 +21,14 @@ method Jeu constructor {parent} {
    this inherited $parent ${objName}_abst ${objName}_pres
    
    Info ${objName}_info $objName [${objName}_pres attribute frameInfos]
-   Univers ${objName}_univ $objName ${objName}_abst(noyau) [${objName}_pres attribute canvasMap] [${objName}_pres attribute canvasMiniMap]
+   
+   #Joueur pour test !!
+   Joueur ${objName}_toto $objName "toto" [${objName}_abst attribute noyau]
+   Univers ${objName}_univ $objName [${objName}_abst attribute noyau] [${objName}_pres attribute frameMap] [${objName}_pres attribute frameMiniMap]
 }
 
-method Jeu destructor {} {
+method Jeu dispose {} {
+	puts ${objName}_dispose_called
    this inherited
 }
 
@@ -35,20 +40,21 @@ method JeuP constructor {control} {
    set this(window) [toplevel .${objName}]
    wm protocol $this(window) WM_DELETE_WINDOW "$this(control) dispose"
    
-   set this(canvasMap) [canvas $this(window).canvasMap]
-   pack $this(canvasMap) -expand 1 -side right
+   set this(frameMap) [frame $this(window).frameMap]
+   pack $this(frameMap) -side right
    
-   set this(canvasMiniMap) [canvas $this(window).canvasMiniMap]
-   pack $this(canvasMiniMap) -expand 1 -side left
+   set this(frameMiniMap) [frame $this(window).frameMiniMap]
+   pack $this(frameMiniMap)
    
    set this(frameInfos) [frame $this(window).frameInfos]
-   pack $this(frameInfos) -expand 1 -side left
+   pack $this(frameInfos) -side bottom
 }
 
-
-method JeuP destructor {} {
+method JeuP dispose {} {
+	puts ${objName}_dispose_called
+	destroy $this(frameMap)
+	destroy $this(frameMiniMap)
 	destroy $this(frameInfos)
-	destroy $this(canvasMiniMap)
-	destroy $this(canvasMap)
 	destroy $this(window)
+	this inherited
 }
