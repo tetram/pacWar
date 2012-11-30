@@ -30,18 +30,57 @@ method Vaisseau destructor {} {
 }
 
 # Agent Pres_MiniMap
-
 	# Controlleur Pres_MiniMap
+	inherit VaisseauMiniMap Control
+	
+	method VaisseauMiniMap constructor {parent canevas} {
+	    VaisseauMiniMapP ${objName}_pres $objName 
+	    this inherited $parent
+	    set this(miniMap) $canevas
+	}
+
+    method VaisseauMiniMap change {x y radius color} {
+        $this(presentation) change x y radius color
+    }
 	
 	# Presentation Pres_MiniMap
+	inherit VaisseauMiniMapP Presentation
+	
+	method VaisseauMiniMapP constructor {control} {
+	    this inherited $control
+	}
+	
+	method VaisseauMiniMapP change {x y radius color} {
+	    $canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill $color
+	}
 
 
 # Agent Pres_Map
 
 	# Controlleur Pres_Map
+	inherit VaisseauMap Control
+	
+	method VaisseauMap constructor {parent canevas} {
+	    VaisseauMapP ${objName}_pres $objName 
+	    this inherited $parent
+	    set this(miniMap) $canevas
+	}
+
+    method VaisseauMap change {x y radius color} {
+        $this(presentation) change x y radius color
+    }
+	
 	
 	# Presentation Pres_Map
-
+    inherit VaisseauMapP Presentation
+	
+	method VaisseauMapP constructor {control} {
+	    this inherited $control
+	}
+	
+	method VaisseauMapP change {x y radius color} {
+	    $canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill $color
+	}
 
 # Agent Pres_Info
 

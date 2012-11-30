@@ -1,7 +1,5 @@
 # Agent Jeu
-source PAC.tcl
 source univers.tcl
-source info.tcl
 source SWL_FC.tcl
 
 # Abstraction
@@ -19,8 +17,7 @@ method Jeu constructor {parent} {
    JeuP ${objName}_pres $objName
    this inherited $parent ${objName}_abst ${objName}_pres
    
-   Info ${objName}_info $objName [${objName}_pres attribute frameInfos]
-   Univers ${objName}_univ $objName ${objName}_abst(noyau) [${objName}_pres attribute canvasMap] [${objName}_pres attribute canvasMiniMap]
+   Univers ${objName}_univ $objName ${objName}_abst(noyau) [${objName}_pres attribute canvasMap canvasMiniMap]
 }
 
 method Jeu destructor {} {
