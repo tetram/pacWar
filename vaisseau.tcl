@@ -1,5 +1,4 @@
 # Agent Vaisseau
-source PAC.tcl
 
 # Abstraction Vaisseau
 inherit VaisseauA Abstraction

@@ -1,5 +1,4 @@
 # Agent Planete
-source PAC.tcl
 
 # Abstraction Planete
 inherit PlaneteA Abstraction

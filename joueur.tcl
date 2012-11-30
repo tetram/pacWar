@@ -1,5 +1,4 @@
 # Agent Joueur
-source PAC.tcl
 
 # Abstraction Joueur
 inherit JoueurA Abstraction
@@ -9,8 +8,8 @@ method JoueurA constructor {control nom noyau} {
    set this(noyau) $noyau
 }
 
-method JoueurA addJoueurToNoyau(){
-	$this(noyau) Add_new_player $this(nom)
+method JoueurA addJoueurToNoyau {} {
+	set this(id) [$this(noyau) Add_new_player $this(nom)]
 }
 
 # Controlleur Joueur
