@@ -50,7 +50,7 @@ method Univers dispose {} {
 		this inherited $control
 	   
 		set this(canvasMap) [canvas $frame.canvasMap -background Pink]
-		pack $this(canvasMap) -fill both
+		pack $this(canvasMap) -expand 1 -fill both
 	}
 	
 	method UnivMapP getCanvas {} {
@@ -79,8 +79,8 @@ method Univers dispose {} {
 	method UnivMiniMapP constructor {control frame} {
 		this inherited $control
 	   
-		set this(canvasMiniMap) [canvas $frame.canvasMiniMap -height 50 -width 150 -background Blue]
-		pack $this(canvasMiniMap) -expand 1
+		set this(canvasMiniMap) [canvas $frame.canvasMiniMap -height 150 -width 150 -background Blue]
+		pack $this(canvasMiniMap) -expand 1 -side top
 	}
 	
 	method UnivMiniMapP getCanvas {} {
