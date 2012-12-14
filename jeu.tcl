@@ -42,17 +42,17 @@ inherit JeuP Presentation
 method JeuP constructor {control} {
    this inherited $control
    
-   set this(window) [toplevel .${objName}]
+   set this(window) [toplevel .${objName} -width 400 -height 250]
    wm protocol $this(window) WM_DELETE_WINDOW "$this(control) dispose"
    
    set this(frameMap) [frame $this(window).frameMap]
-   pack $this(frameMap) -side right
+   pack $this(frameMap) -side right -fill both -expand 1 
    
    set this(frameMiniMap) [frame $this(window).frameMiniMap]
-   pack $this(frameMiniMap)
+   pack $this(frameMiniMap) -side top -fill both -expand 0
    
    set this(frameInfos) [frame $this(window).frameInfos]
-   pack $this(frameInfos) -side bottom
+   pack $this(frameInfos) -fill x -expand 1 
 }
 
 method JeuP dispose {} {
