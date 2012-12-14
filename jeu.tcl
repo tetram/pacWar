@@ -12,6 +12,11 @@ method JeuA constructor {control} {
    set this(noyau) [SWL_FC S_$objName]
 }
 
+method JeuA dispose {} {
+	puts ${objName}_dispose_called
+	destroy $this(noyau)
+	this inherited
+}
 
 # Controlleur
 inherit Jeu Control

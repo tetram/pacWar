@@ -21,6 +21,9 @@ method InfoP constructor {control frame} {
 	
 	set this(frame) $frame
 	
-	set this(buttonOk) [button $this(frame).buttonOk -text "ok"]
-	pack $this(buttonOk) -expand 1 -fill both
+	set this(playerName) [entry $this(window).playerName -justify right]
+	pack $this(playerName) -expand 1
+	
+	set this(buttonAddPlayer) [button $this(frame).buttonAddPlayer -text "Ajouter un Joueur"]
+	pack $this(buttonOk) -expand 1
 }
