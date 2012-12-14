@@ -46,7 +46,7 @@ method Jeu dispose {} {
 method Jeu addPlayer {name} {
 	Joueur ${objName}_joueur_${name} $objName $name [${objName}_abst attribute noyau]
 	${objName}_abst newPlayer $name [${objName}_joueur_${name}_abst attribute id] 
-	${objName}_info updateList [${objName}_joueur_${name}_abst attribute id]:${name}
+	${objName}_info updatePlayersList [${objName}_joueur_${name}_abst attribute id]:${name}
 }
 
 # Presentation
