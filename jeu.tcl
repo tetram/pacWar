@@ -9,7 +9,13 @@ source joueur.tcl
 inherit JeuA Abstraction
 method JeuA constructor {control} {
    this inherited $control
+   set this(listePlayers) {}
    set this(noyau) [SWL_FC S_$objName]
+}
+
+method JeuA newPlayer {name id} {
+	lappend this(listePlayers) ${id}:${name}
+	puts $this(listePlayers)
 }
 
 method JeuA dispose {} {
@@ -22,10 +28,10 @@ method JeuA dispose {} {
 inherit Jeu Control
 method Jeu constructor {parent} {
    JeuA ${objName}_abst $objName
-   JeuP ${objName}_pres $objName
+   JeuP ${objName}_pres $objName 
    this inherited $parent ${objName}_abst ${objName}_pres
    
-   Info ${objName}_info $objName [${objName}_pres attribute frameInfos]
+   Info ${objName}_info $objName [${objName}_pres attribute frameInfos] [${objName}_abst attribute listePlayers]
    
    #Joueur pour test !!
    Joueur ${objName}_toto $objName "toto" [${objName}_abst attribute noyau]
@@ -35,6 +41,12 @@ method Jeu constructor {parent} {
 method Jeu dispose {} {
 	puts ${objName}_dispose_called
    this inherited
+}
+
+method Jeu addPlayer {name} {
+	Joueur ${objName}_joueur_${name} $objName $name [${objName}_abst attribute noyau]
+	${objName}_abst newPlayer $name [${objName}_joueur_${name}_abst attribute id] 
+	${objName}_info updateList [${objName}_joueur_${name}_abst attribute id]:${name}
 }
 
 # Presentation
