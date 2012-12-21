@@ -67,8 +67,8 @@ method Planete dispose {} {
 	inherit PlaneteMapP Presentation
 	method PlaneteMapP constructor {control canvas x y radius} {
 	   this inherited $control
-	   
-	   $canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill green
+	   set rad [expr 2 * $radius]
+	   $canvas create oval [expr $x - $rad] [expr $y - $rad] [expr $x + $rad] [expr $y + $rad] -fill green
 	}
 	
 # Optionnel ? Pres_Info ???

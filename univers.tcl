@@ -20,7 +20,7 @@ method Univers constructor {parent noyau frameMap frameMiniMap} {
    UnivMiniMap ${objName}_presMiniMap this $frameMiniMap
    
    Planete ${objName}_planetetest $objName 10 10 10 10 $noyau [${objName}_presMap getCanvas] [${objName}_presMiniMap getCanvas]
-   Vaisseau ${objName}_vaisseautest $objName 50 30 20 "Player_1" Yellow $noyau [${objName}_presMap getCanvas] [${objName}_presMiniMap getCanvas]
+   Vaisseau ${objName}_vaisseautest $objName 50 30 5 "Player_1" Yellow $noyau [${objName}_presMap getCanvas] [${objName}_presMiniMap getCanvas]
 }
 
 method Univers dispose {} {
@@ -79,7 +79,7 @@ method Univers dispose {} {
 	method UnivMiniMapP constructor {control frame} {
 		this inherited $control
 	   
-		set this(canvasMiniMap) [canvas $frame.canvasMiniMap -height 150 -width 150 -background Blue]
+		set this(canvasMiniMap) [canvas $frame.canvasMiniMap -height 200 -width 200 -background Blue]
 		pack $this(canvasMiniMap) -expand 1 -side top
 	}
 	
