@@ -2,11 +2,17 @@
 source vaisseau.tcl
 source planete.tcl
 
+set identifiantNewObject 0
+
 # Abstraction Univers
 inherit UniversA Abstraction
 method UniversA constructor {control noyau} {
    this inherited $control
    set this(noyau) $noyau
+}
+
+method UniversA getNoyau {} {
+    return $this(noyau)
 }
 
 
@@ -18,13 +24,24 @@ method Univers constructor {parent noyau frameMap frameMiniMap} {
    
    UnivMap ${objName}_presMap this $frameMap
    UnivMiniMap ${objName}_presMiniMap this $frameMiniMap
-   
-   Planete ${objName}_planetetest $objName 10 10 10 10 $noyau [${objName}_presMap getCanvas] [${objName}_presMiniMap getCanvas]
-   Vaisseau ${objName}_vaisseautest $objName 50 30 5 "Player_1" Yellow $noyau [${objName}_presMap getCanvas] [${objName}_presMiniMap getCanvas]
+}
+
+method Univers addPlanete {x y radius densite} {
+    Planete [$objName newName] $objName $radius $x $y $densite [$this(abstraction) getNoyau] [${objName}_presMap getCanvas] [${objName}_presMiniMap getCanvas]
+}
+
+method Univers addShip {player} {
+    Vaisseau [$objName newName] $objName 50 50 10 $player Yellow [$this(abstraction) getNoyau] [${objName}_presMap getCanvas] [${objName}_presMiniMap getCanvas]
 }
 
 method Univers dispose {} {
    this inherited
+}
+
+method Univers newName {} {
+    global identifiantNewObject
+    incr identifiantNewObject
+    return ${objName}_$identifiantNewObject
 }
 
 # Agent Pres_Map

@@ -4,6 +4,7 @@ source univers.tcl
 source info.tcl
 source SWL_FC.tcl
 source joueur.tcl
+package require Tk
 
 # Abstraction
 inherit JeuA Abstraction
@@ -15,6 +16,7 @@ method JeuA constructor {control} {
 
 method JeuA newPlayer {name id} {
 	lappend this(listePlayers) ${id}:${name}
+	$this(noyau) Add_new_player $name
 	puts $this(listePlayers)
 }
 
@@ -47,6 +49,14 @@ method Jeu addPlayer {name} {
 	Joueur ${objName}_joueur_${name} $objName $name [${objName}_abst attribute noyau]
 	${objName}_abst newPlayer $name [${objName}_joueur_${name}_abst attribute id] 
 	${objName}_info updatePlayersList [${objName}_joueur_${name}_abst attribute id]:${name}
+}
+
+method Jeu addPlanete {x y radius densite} {
+    ${objName}_univ addPlanete $x $y $radius $densite
+}
+
+method Jeu addShip {player} {
+    ${objName}_univ addShip $player
 }
 
 # Presentation
