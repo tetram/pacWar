@@ -10,6 +10,7 @@ method JoueurA constructor {control nom noyau} {
 
 method JoueurA addJoueurToNoyau {} {
 	set this(id) [$this(noyau) Add_new_player $this(nom)]
+	puts $this(id)
 }
 
 # Controlleur Joueur
@@ -18,6 +19,10 @@ method Joueur constructor {parent nom noyau} {
    JoueurA ${objName}_abst $objName $nom $noyau
    this inherited $parent ${objName}_abst
    ${objName}_abst addJoueurToNoyau
+}
+
+method Joueur getId {} {
+    return [$this(abstraction) attribute id]
 }
 
 method Joueur dispose {} {

@@ -14,9 +14,8 @@ method JeuA constructor {control} {
    set this(noyau) [SWL_FC S_$objName]
 }
 
-method JeuA newPlayer {name id} {
-	lappend this(listePlayers) ${id}:${name}
-	$this(noyau) Add_new_player $name
+method JeuA newPlayer {id} {
+	lappend this(listePlayers) ${id}
 	puts $this(listePlayers)
 }
 
@@ -36,7 +35,7 @@ method Jeu constructor {parent} {
    Info ${objName}_info $objName [${objName}_pres attribute frameInfos] [${objName}_abst attribute listePlayers]
    
    #Joueur pour test !!
-   Joueur ${objName}_toto $objName "toto" [${objName}_abst attribute noyau]
+   #Joueur ${objName}_toto $objName "toto" [${objName}_abst attribute noyau]
    Univers ${objName}_univ $objName [${objName}_abst attribute noyau] [${objName}_pres attribute frameMap] [${objName}_pres attribute frameMiniMap]
 }
 
@@ -45,18 +44,23 @@ method Jeu dispose {} {
    this inherited
 }
 
+method Jeu getPlayerAtIndex {index} {
+    set tmp [${objName}_abst attribute listePlayers]
+    return [lindex $tmp $index]
+}
+
 method Jeu addPlayer {name} {
-	Joueur ${objName}_joueur_${name} $objName $name [${objName}_abst attribute noyau]
-	${objName}_abst newPlayer $name [${objName}_joueur_${name}_abst attribute id] 
-	${objName}_info updatePlayersList [${objName}_joueur_${name}_abst attribute id]:${name}
+	set P [Joueur ${objName}_joueur_${name} $objName $name [${objName}_abst attribute noyau]]
+	${objName}_abst newPlayer [${objName}_joueur_${name} getId] 
+	${objName}_info updatePlayersList [${objName}_joueur_${name} getId]:${name}
 }
 
 method Jeu addPlanete {x y radius densite} {
     ${objName}_univ addPlanete $x $y $radius $densite
 }
 
-method Jeu addShip {player} {
-    ${objName}_univ addShip $player
+method Jeu addShip {index} {
+    ${objName}_univ addShip [${objName} getPlayerAtIndex $index]
 }
 
 # Presentation

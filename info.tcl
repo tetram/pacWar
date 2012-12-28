@@ -1,6 +1,5 @@
 # Agent Info
-# TODO : creer un "joueur selectionné" pour pouvoir lui ajouter des Planetex... depuis l'onglet Planetex
-#couleur associée à un joueur : en dur pour deux joueurs !! 
+# TODO couleur associée à un joueur : en dur pour deux joueurs !! 
 
 # Abstraction
 inherit InfoA Abstraction
@@ -20,8 +19,8 @@ method Info constructor {parent frame listePlayer} {
 method Info addPlayer {name} {
 	$this(parent) addPlayer $name
 }
-method Info addShip { player } {
-	$this(parent) addShip $player
+method Info addShip {index} {
+	$this(parent) addShip $index
 }
 method Info addPlanete {x y radius densite} {
 	$this(parent) addPlanete $x $y $radius $densite
@@ -128,7 +127,7 @@ method InfoP addPlanete {} {
 }
 
 method InfoP addShip {} {
-	$this(control) addShip [$this(playerList) get  [ lindex [$this(playerList) curselection] 0]]
+	$this(control) addShip [ lindex [$this(playerList) curselection] 0]
 }
 
 method InfoP dispose {} {
