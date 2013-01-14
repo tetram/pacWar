@@ -14,8 +14,8 @@ method JeuA constructor {control} {
    set this(noyau) [SWL_FC S_$objName]
 }
 
-method JeuA newPlayer {id} {
-	lappend this(listePlayers) ${id}
+method JeuA newPlayer {P} {
+	lappend this(listePlayers) $P
 	puts $this(listePlayers)
 }
 
@@ -31,7 +31,6 @@ method Jeu constructor {parent} {
    JeuA ${objName}_abst $objName
    JeuP ${objName}_pres $objName 
    this inherited $parent ${objName}_abst ${objName}_pres
-   
    Info ${objName}_info $objName [${objName}_pres attribute frameInfos] [${objName}_abst attribute listePlayers]
    
    #Joueur pour test !!
@@ -51,7 +50,7 @@ method Jeu getPlayerAtIndex {index} {
 
 method Jeu addPlayer {name} {
 	set P [Joueur ${objName}_joueur_${name} $objName $name [${objName}_abst attribute noyau]]
-	${objName}_abst newPlayer [${objName}_joueur_${name} getId] 
+	${objName}_abst newPlayer $P
 	${objName}_info updatePlayersList [${objName}_joueur_${name} getId]:${name}
 }
 

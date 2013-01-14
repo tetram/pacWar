@@ -9,6 +9,7 @@
 #___________________________________________________________________________________________________________________________________________
 method SWL_FC constructor {} {
 	set this(uid) 0
+	set this(sid) 0
 	set this(dt)  0.05
 	set this(simulation_step) 10
 	
@@ -18,6 +19,11 @@ method SWL_FC constructor {} {
 #___________________________________________________________________________________________________________________________________________
 method SWL_FC generate_uid {prefix} {
 	incr this(uid)
+	return ${prefix}_$this(uid)
+}
+
+method SWL_FC generate_sid {prefix} {
+	incr this(sid)
 	return ${prefix}_$this(uid)
 }
 
@@ -191,7 +197,7 @@ method SWL_FC Update_player {id D_update} {
 #___________________________________________________________________________________________________________________________________________
 method SWL_FC Add_new_ship {id_player x y radius} {
 	if {![dict exists $this(D_players) $id_player]} {error "There is no player identified by $id_player\nPlayers are: $this(D_players)"}
-	set id [this generate_uid "${id_player}_Ship"]
+	set id [this generate_sid "${id_player}_Ship"]
 	dict set this(D_players) $id_player D_ships $id [dict create x $x y $y radius $radius energy 100 fire_velocity 0 fire_angle 0]
 	return $id
 }

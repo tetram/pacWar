@@ -31,7 +31,7 @@ method Univers addPlanete {x y radius densite} {
 }
 
 method Univers addShip {player} {
-    Vaisseau [$objName newName] $objName 50 50 5 $player Yellow [$this(abstraction) getNoyau] [${objName}_presMap getCanvas] [${objName}_presMiniMap getCanvas]
+    Vaisseau [$objName newName] $objName 50 50 5 [$player getId] [$player getColor] [$this(abstraction) getNoyau] [${objName}_presMap getCanvas] [${objName}_presMiniMap getCanvas]
 }
 
 method Univers dispose {} {

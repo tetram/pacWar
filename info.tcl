@@ -127,7 +127,12 @@ method InfoP addPlanete {} {
 }
 
 method InfoP addShip {} {
-	$this(control) addShip [ lindex [$this(playerList) curselection] 0]
+	set listeSelected [ lindex [$this(playerList) curselection] 0]
+	if {[llength $listeSelected] == 1} {
+		$this(control) addShip $listeSelected
+	} else {
+		tk_messageBox -message "Veuillez selectionner un joueur" -type ok -icon question
+	}
 }
 
 method InfoP dispose {} {
