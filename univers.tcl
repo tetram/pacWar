@@ -21,9 +21,12 @@ inherit Univers Control
 method Univers constructor {parent noyau frameMap frameMiniMap} {
    UniversA ${objName}_abst $objName $noyau
    this inherited $parent ${objName}_abst
-   
-   UnivMap ${objName}_presMap this $frameMap
+   set this(uMap) [UnivMap ${objName}_presMap this $frameMap]
    UnivMiniMap ${objName}_presMiniMap this $frameMiniMap
+
+   $noyau Subscribe_after_Start_fire ${objName}_start "${objName}_presMap createBullet \$this(L_bullets)"
+   $noyau Subscribe_after_Compute_a_simulation_step ${objName}_step "${objName}_presMap updateBullet \$this(L_bullets)"
+   $noyau Subscribe_after_Destroy_ship ${objName}_rm_ship "${objName}_presMap destroyShip \$id; ${objName}_presMiniMap destroyShip \$id;"
 }
 
 method Univers addPlanete {x y radius densite} {
@@ -32,6 +35,7 @@ method Univers addPlanete {x y radius densite} {
 
 method Univers addShip {player} {
     Vaisseau [$objName newName] $objName 50 50 5 [$player getId] [$player getColor] [$this(abstraction) getNoyau] [${objName}_presMap getCanvas] [${objName}_presMiniMap getCanvas]
+    
 }
 
 method Univers updateSelectedShip {joueur vaisseau v a} {
@@ -39,7 +43,7 @@ method Univers updateSelectedShip {joueur vaisseau v a} {
 }
 
 method Univers editShip {selectedPlayer selectedShip v a} {
-	#TODO : recupérer le vaisseau... il aurait fallu que le nom corresponde à l'id noyau par exemple...
+	
 }
 
 method Univers dispose {} {
@@ -69,17 +73,48 @@ method Univers newName {} {
 		return [${objName}_pres getCanvas]
 	}
 	
+	method UnivMap createBullet {L_bullets} {
+	  ${objName}_pres createBullet $L_bullets
+	}
+	
+	method UnivMap updateBullet {L_bullets} {
+	  ${objName}_pres updateBullet $L_bullets
+	}
+	
+	method UnivMap destroyShip {id} {
+	  ${objName}_pres destroyShip $id
+	}
+	
 	# Presentation Pres_Map
 	inherit UnivMapP Presentation
 	method UnivMapP constructor {control frame} {
 		this inherited $control
-	   
+	  
 		set this(canvasMap) [canvas $frame.canvasMap -background Pink]
 		pack $this(canvasMap) -expand 1 -fill both
+		upvar .map $this(canvasMap)
 	}
 	
 	method UnivMapP getCanvas {} {
 		return $this(canvasMap)
+	}
+	method UnivMapP createBullet {L_bullets} {
+	  $this(canvasMap) delete Bullet
+    set radius 2
+    foreach {id x y vx vy} $L_bullets {
+        $this(canvasMap) create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill black -tags [list Bullet $id]
+    }
+	}
+	
+	method UnivMapP updateBullet {L_bullets} {
+    set radius 2
+    foreach {id x y vx vy} $L_bullets {
+      $this(canvasMap) coords $id [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius]
+    }
+	}
+	
+	method UnivMapP destroyShip {id} {
+	  $this(canvasMap) delete $id
 	}
 
 # Agent Pres_MiniMap
@@ -99,6 +134,10 @@ method Univers newName {} {
 		return [${objName}_pres getCanvas]
 	}
 	
+	method UnivMiniMap destroyShip {id} {
+	  ${objName}_pres destroyShip $id
+	}
+	
 	# Presentation Pres_MiniMap
 	inherit UnivMiniMapP Presentation
 	method UnivMiniMapP constructor {control frame} {
@@ -110,4 +149,8 @@ method Univers newName {} {
 	
 	method UnivMiniMapP getCanvas {} {
 		return $this(canvasMiniMap)
+	}
+	
+	method UnivMiniMapP destroyShip {id} {
+	  $this(canvasMiniMap) delete $id
 	}

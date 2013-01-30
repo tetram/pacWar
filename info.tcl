@@ -37,6 +37,9 @@ method Info editShip {selectedPlayer selectedShip v a} {
 	$this(parent) editShip $selectedPlayer $selectedShip  $v $a
 }
 
+method Info startFire {} {
+  $this(parent) startFire
+}
 
 # Presentation
 inherit InfoP Presentation
@@ -83,13 +86,14 @@ method InfoP constructor {control frame listePlayer} {
 	 
    pack $this(entryVel) -expand 1 -side right
 	
-	set this(labelVel) [label $this(frame).nb.frameVaisseau.frameVaisseuVel.labelVel -text "X : "  -justify right]
+	set this(labelVel) [label $this(frame).nb.frameVaisseau.frameVaisseuVel.labelVel -text "Vélocité : "  -justify right]
 	pack $this(labelVel) -expand 1
 	
+
 	set this(entryAng) [entry $this(frame).nb.frameVaisseau.frameVaisseauAng.entryAng -justify left]
    pack $this(entryAng) -expand 1  -side right
    
-	set this(labelAng) [label $this(frame).nb.frameVaisseau.frameVaisseauAng.labelAng -text "Y : "  -justify right]
+	set this(labelAng) [label $this(frame).nb.frameVaisseau.frameVaisseauAng.labelAng -text "Angle : "  -justify right]
 	pack $this(labelAng) -expand 1
 	
 	#############################################
@@ -148,6 +152,7 @@ method InfoP constructor {control frame listePlayer} {
 	$this(frame).nb add $this(framePlanetes) -text "Planetes"
 	$this(frame).nb add $this(frameVaisseau) -text "Vaisseau"
 	$this(frame).nb select $this(frame).nb.framePlayers
+	pack [button $this(frame).startFireButton -text "Jouer!"  -command "${objName} startFire"] -expand 1
 }
 
 method InfoP updatePlayersList {joueur} {
@@ -188,7 +193,10 @@ method InfoP addShip {} {
 		tk_messageBox -message "Veuillez selectionner un joueur" -type ok -icon question
 	}
 }
-
+method InfoP startFire {} {
+#TODO tester condition de lancement
+  $this(control) startFire
+}
 method InfoP dispose {} {
 	puts ${objName}_dispose_called
 	destroy ::${objName}_listePlayers

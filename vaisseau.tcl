@@ -19,9 +19,9 @@ method VaisseauA addVaisseauToNoyau {} {
 }
 
 method VaisseauA editPosition {x y} {
-    #TODO faire l'appel au noyau
     set this(x) $x
     set this(y) $y
+    $this(noyau) Update_ship $this(joueur) $this(id) [dict create x $x y $y]
     this positionChange
 }
 
@@ -37,8 +37,8 @@ method Vaisseau constructor {parent x y radius joueur color noyau canvasMap canv
    
    ${objName}_abst addVaisseauToNoyau
    
-   VaisseauMap ${objName}_presMap $objName $objName $x $y $radius $color $canvasMap
-   VaisseauMiniMap ${objName}_presMiniMap $objName $x $y $radius $color $canvasMiniMap
+   VaisseauMap ${objName}_presMap $objName [${objName}_abst attribute id] $x $y $radius $color $canvasMap
+   VaisseauMiniMap ${objName}_presMiniMap $objName [${objName}_abst attribute id] $x $y $radius $color $canvasMiniMap
    ${objName} editPosition $x $y
 }
 
@@ -65,8 +65,8 @@ method Vaisseau dispose {} {
 	# Controlleur Pres_MiniMap
 	inherit VaisseauMiniMap Control
 	
-	method VaisseauMiniMap constructor {parent x y radius color canvas} {
-	    VaisseauMiniMapP ${objName}_pres $objName $x $y $radius $color $canvas
+	method VaisseauMiniMap constructor {parent id x y radius color canvas} {
+	    VaisseauMiniMapP ${objName}_pres $objName $id $x $y $radius $color $canvas
 	    this inherited $parent "" ${objName}_pres
 	}
 	
@@ -80,15 +80,19 @@ method Vaisseau dispose {} {
 	
 	# Presentation Pres_MiniMap
     inherit VaisseauMiniMapP Presentation
-	method VaisseauMiniMapP constructor {control x y radius color canvas} {
+	method VaisseauMiniMapP constructor {control id x y radius color canvas} {
 	    this inherited $control
-		set this(oval) [$canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill $color -tags [list element $objName $control]]
+	    set $x [expr $x / 2]  
+	    set $y [expr $y / 2]
+		set this(oval) [$canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill $color -tags $id]
 		 set this(last_x) $x
 		 set this(last_y) $y
 		 set this(canvas) $canvas 
 	}
 
 	method VaisseauMiniMapP positionChange {x y} {
+	        set $x [expr $x / 2]  
+	        set $y [expr $y / 2]
 	        set dx [expr $x - $this(last_x)]
 	        set dy [expr $y - $this(last_y)]
 	        $this(canvas) move $this(oval) $dx $dy
@@ -137,11 +141,11 @@ method Vaisseau dispose {} {
 	
 	method VaisseauMapP editPosition {x y} {
 		$this(control) updateSelectedShip
-	    $this(control) editPosition $this(oval) [expr $x / 2] [expr $y / 2] 
+	    $this(control) editPosition $this(oval) $x $y
 	}
 	
 	method VaisseauMapP positionChange {x y} {
-	    this move [expr $x * 2]  [expr $y * 2]
+	    this move $x $y
 	}
 
 	method VaisseauMapP move {x y} {

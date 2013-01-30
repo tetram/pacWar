@@ -16,9 +16,9 @@ method PlaneteA addPlaneteToNoyau {} {
 }
 
 method PlaneteA editPosition {x y} {
-    #TODO faire l'appel au noyau
     set this(x) $x
     set this(y) $y
+    $this(noyau) Update_planet $this(id) [dict create x $x y $y radius $this(rayon) density $this(densite)]
     this positionChange
 }
 
@@ -122,11 +122,11 @@ method Planete dispose {} {
 	}
 	
 	method PlaneteMapP editPosition {x y} {
-	    $this(control) editPosition $this(oval) [expr $x / 2] [expr $y / 2] 
+	    $this(control) editPosition $this(oval) $x $y
 	}
 	
 	method PlaneteMapP positionChange {x y} {
-	    this move [expr $x * 2]  [expr $y * 2]
+	    this move $x $y
 	}
 
 	method PlaneteMapP move {x y} {

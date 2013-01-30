@@ -43,8 +43,8 @@ method Jeu constructor {parent} {
 }
 
 method Jeu dispose {} {
-	puts ${objName}_dispose_called
-   this inherited
+  puts ${objName}_dispose_called
+  this inherited
 }
 
 method Jeu getPlayerAtIndex {index} {
@@ -75,6 +75,9 @@ method Jeu editShip {selectedPlayer selectedShip v a} {
 	${objName}_univ editShip $selectedPlayer $selectedShip $v $a
 }
 
+method Jeu startFire {} {
+  [${objName}_abst attribute noyau] Start_fire
+}
 # Presentation
 inherit JeuP Presentation
 method JeuP constructor {control} {
