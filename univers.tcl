@@ -34,6 +34,14 @@ method Univers addShip {player} {
     Vaisseau [$objName newName] $objName 50 50 5 [$player getId] [$player getColor] [$this(abstraction) getNoyau] [${objName}_presMap getCanvas] [${objName}_presMiniMap getCanvas]
 }
 
+method Univers updateSelectedShip {joueur vaisseau v a} {
+	$this(parent) updateSelectedShip $joueur $vaisseau $v $a
+}
+
+method Univers editShip {selectedPlayer selectedShip v a} {
+	#TODO : recupérer le vaisseau... il aurait fallu que le nom corresponde à l'id noyau par exemple...
+}
+
 method Univers dispose {} {
    this inherited
 }

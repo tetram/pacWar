@@ -9,10 +9,13 @@ method VaisseauA constructor {control x y radius joueur noyau} {
    set this(radius) $radius
    set this(joueur) $joueur
    set this(noyau) $noyau
+   set this(v) 0
+   set this(a) 0
 }
 
 method VaisseauA addVaisseauToNoyau {} {
 	set this(id) [$this(noyau) Add_new_ship $this(joueur) $this(x) $this(y) $this(radius)]
+	puts ${objName}
 }
 
 method VaisseauA editPosition {x y} {
@@ -41,6 +44,10 @@ method Vaisseau constructor {parent x y radius joueur color noyau canvasMap canv
 
 method Vaisseau editPosition {x y} {
     $this(abstraction) editPosition $x $y
+}
+
+method Vaisseau updateSelectedShip {} {
+	$this(parent) updateSelectedShip [${objName}_abst attribute joueur] [${objName}_abst attribute id] [${objName}_abst attribute v] [${objName}_abst attribute a]
 }
 
 method Vaisseau positionChange {x y} {
@@ -103,6 +110,10 @@ method Vaisseau dispose {} {
 	    $this(parent) editPosition $x $y
 	}
 	
+	method VaisseauMap updateSelectedShip {} {
+		$this(parent) updateSelectedShip
+	}
+	
 	method VaisseauMap positionChange {x y} {
 	    $this(presentation) positionChange $x $y
 	}
@@ -125,6 +136,7 @@ method Vaisseau dispose {} {
 	}
 	
 	method VaisseauMapP editPosition {x y} {
+		$this(control) updateSelectedShip
 	    $this(control) editPosition $this(oval) [expr $x / 2] [expr $y / 2] 
 	}
 	

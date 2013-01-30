@@ -19,6 +19,10 @@ method JeuA newPlayer {P} {
 	puts $this(listePlayers)
 }
 
+method JeuA editShip {idPlayer selectedShip v a} {
+	$this(noyau) Update_ship $idPlayer $selectedShip [dict create fire_velocity $v fire_angle $a]
+}
+
 method JeuA dispose {} {
 	puts ${objName}_dispose_called
 	destroy $this(noyau)
@@ -58,8 +62,17 @@ method Jeu addPlanete {x y radius densite} {
     ${objName}_univ addPlanete $x $y $radius $densite
 }
 
+method Jeu updateSelectedShip {joueur vaisseau v a} {
+	${objName}_info updateSelectedShip $joueur $vaisseau $v $a
+}
+
 method Jeu addShip {index} {
     ${objName}_univ addShip [${objName} getPlayerAtIndex $index]
+}
+
+method Jeu editShip {selectedPlayer selectedShip v a} {
+	${objName}_abst editShip $selectedPlayer $selectedShip $v $a
+	${objName}_univ editShip $selectedPlayer $selectedShip $v $a
 }
 
 # Presentation

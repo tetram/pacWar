@@ -29,6 +29,15 @@ method Info updatePlayersList {joueur} {
 	${objName}_pres updatePlayersList $joueur
 }
 
+method Info updateSelectedShip {joueur vaisseau v a} {
+	${objName}_pres updateSelectedShip $joueur $vaisseau $v $a
+}
+
+method Info editShip {selectedPlayer selectedShip v a} {
+	$this(parent) editShip $selectedPlayer $selectedShip  $v $a
+}
+
+
 # Presentation
 inherit InfoP Presentation
 method InfoP constructor {control frame listePlayer} {
@@ -43,6 +52,7 @@ method InfoP constructor {control frame listePlayer} {
 	
 	set this(framePlayers) [frame $this(frame).nb.framePlayers]
 	set this(framePlanetes) [frame $this(frame).nb.framePlanetes]
+	set this(frameVaisseau) [frame $this(frame).nb.frameVaisseau]
 	
 	######## Contenu de la frame Players ########
 	set this(playerList) [listbox $this(frame).nb.framePlayers.playerList -listvariable ::${objName}_listePlayers -height 2]
@@ -58,6 +68,31 @@ method InfoP constructor {control frame listePlayer} {
 	pack $this(buttonAddVaisseau) -expand 1
 	#############################################
 	
+	######## Contenu de la frame Vaisseau ########
+	
+	set this(frameVaisseuVel) [frame $this(frame).nb.frameVaisseau.frameVaisseuVel]
+	pack $this(frameVaisseuVel) -expand 1
+	
+	set this(frameVaisseauAng) [frame $this(frame).nb.frameVaisseau.frameVaisseauAng]
+	pack $this(frameVaisseauAng) -expand 1
+	
+	set this(buttonEditShip) [button $this(frame).nb.frameVaisseau.buttonEditShip -text "Editer" -command "${objName} editShip"]
+	pack $this(buttonEditShip) -expand 1 -side bottom
+	
+	set this(entryVel) [entry $this(frame).nb.frameVaisseau.frameVaisseuVel.entryX -justify left]
+	 
+   pack $this(entryVel) -expand 1 -side right
+	
+	set this(labelVel) [label $this(frame).nb.frameVaisseau.frameVaisseuVel.labelVel -text "X : "  -justify right]
+	pack $this(labelVel) -expand 1
+	
+	set this(entryAng) [entry $this(frame).nb.frameVaisseau.frameVaisseauAng.entryAng -justify left]
+   pack $this(entryAng) -expand 1  -side right
+   
+	set this(labelAng) [label $this(frame).nb.frameVaisseau.frameVaisseauAng.labelAng -text "Y : "  -justify right]
+	pack $this(labelAng) -expand 1
+	
+	#############################################
 	
 	######## Contenu de la frame Planetes ########
 	
@@ -111,6 +146,7 @@ method InfoP constructor {control frame listePlayer} {
 	
 	$this(frame).nb add $this(framePlayers) -text "Joueurs"
 	$this(frame).nb add $this(framePlanetes) -text "Planetes"
+	$this(frame).nb add $this(frameVaisseau) -text "Vaisseau"
 	$this(frame).nb select $this(frame).nb.framePlayers
 }
 
@@ -124,6 +160,24 @@ method InfoP addPlayer {} {
 
 method InfoP addPlanete {} {
 	$this(control) addPlanete [$this(entryX) get] [$this(entryY) get] [$this(entryRadius) get] [$this(entryDensite) get]
+}
+
+method InfoP editShip {} {
+	if {![info exists this(selectedShip)]} {
+		error "There is no ship selected"
+	} else {
+		$this(control) editShip $this(selectedPlayer) $this(selectedShip) [$this(entryVel) get] [$this(entryAng) get]
+	}
+	puts "edit pressed"
+}
+
+method InfoP updateSelectedShip {idPlayer idShip v a} {
+	$this(entryVel) delete 0 end
+	$this(entryAng) delete 0 end
+	$this(entryVel) insert 0 $v
+	$this(entryAng) insert 0 $a
+	set this(selectedPlayer) $idPlayer
+	set this(selectedShip) $idShip
 }
 
 method InfoP addShip {} {
