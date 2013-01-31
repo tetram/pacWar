@@ -110,6 +110,7 @@ method Vaisseau dispose {} {
 	    VaisseauMapP ${objName}_pres $objName $id $x $y $radius $color $canvas
 	    this inherited $parent "" ${objName}_pres
 	    $canvas bind $id <B1-Motion> "${objName}_pres editPosition %x %y"
+		$canvas bind $id <1> "${objName} updateSelectedShip"
 	}
 	
 	method VaisseauMap editPosition {id x y} {
@@ -141,7 +142,6 @@ method Vaisseau dispose {} {
 	}
 	
 	method VaisseauMapP editPosition {x y} {
-		$this(control) updateSelectedShip
 	    $this(control) editPosition $this(oval) $x $y
 	}
 	

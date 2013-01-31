@@ -97,7 +97,7 @@ method InfoP constructor {control frame listePlayer} {
 	set this(labelAng) [label $this(frame).nb.frameVaisseau.frameVaisseauAng.labelAng -text "Angle : "  -justify right]
 	pack $this(labelAng) -expand 1
 	
-	set this(labelVaisseau) [label $this(frame).nb.frameVaisseau.labelVaisseau -width 20 -textvariable  this(selectedShip)]
+	set this(labelVaisseau) [entry $this(frame).nb.frameVaisseau.labelVaisseau -justify left]
 	pack $this(labelVaisseau) -expand 1 -side bottom
 	
 	#############################################
@@ -187,6 +187,8 @@ method InfoP editShip {} {
 method InfoP updateSelectedShip {idPlayer idShip v a} {
 	$this(entryVel) delete 0 end
 	$this(entryAng) delete 0 end
+	$this(labelVaisseau) delete 0 end
+	$this(labelVaisseau) insert 0 $idShip
 	$this(entryVel) insert 0 $v
 	$this(entryAng) insert 0 $a
 	set this(selectedPlayer) $idPlayer

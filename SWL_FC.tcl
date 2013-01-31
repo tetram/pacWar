@@ -24,7 +24,7 @@ method SWL_FC generate_uid {prefix} {
 
 method SWL_FC generate_sid {prefix} {
 	incr this(sid)
-	return ${prefix}_$this(uid)
+	return ${prefix}_$this(sid)
 }
 
 #___________________________________________________________________________________________________________________________________________
