@@ -47,6 +47,7 @@ method InfoP constructor {control frame listePlayer} {
 	this inherited $control
 	
 	set ::${objName}_listePlayers {}
+	set this(selectedShip) "Aucun"
 	
 	set this(frame) $frame
 	
@@ -95,6 +96,9 @@ method InfoP constructor {control frame listePlayer} {
    
 	set this(labelAng) [label $this(frame).nb.frameVaisseau.frameVaisseauAng.labelAng -text "Angle : "  -justify right]
 	pack $this(labelAng) -expand 1
+	
+	set this(labelVaisseau) [label $this(frame).nb.frameVaisseau.labelVaisseau -width 20 -textvariable  this(selectedShip)]
+	pack $this(labelVaisseau) -expand 1 -side bottom
 	
 	#############################################
 	
@@ -157,10 +161,14 @@ method InfoP constructor {control frame listePlayer} {
 
 method InfoP updatePlayersList {joueur} {
 	lappend ::${objName}_listePlayers $joueur
+	
 }
 
 method InfoP addPlayer {} {
-	$this(control) addPlayer [$this(playerName) get]
+    if {[$this(playerName) get] ne ""} {
+	    $this(control) addPlayer [$this(playerName) get]
+	    $this(playerName) delete 0 end
+	}
 }
 
 method InfoP addPlanete {} {

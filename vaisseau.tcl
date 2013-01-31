@@ -39,6 +39,7 @@ method Vaisseau constructor {parent x y radius joueur color noyau canvasMap canv
    
    VaisseauMap ${objName}_presMap $objName [${objName}_abst attribute id] $x $y $radius $color $canvasMap
    VaisseauMiniMap ${objName}_presMiniMap $objName [${objName}_abst attribute id] $x $y $radius $color $canvasMiniMap
+   
    ${objName} editPosition $x $y
 }
 
@@ -82,8 +83,9 @@ method Vaisseau dispose {} {
     inherit VaisseauMiniMapP Presentation
 	method VaisseauMiniMapP constructor {control id x y radius color canvas} {
 	    this inherited $control
-	    set $x [expr $x / 2]  
-	    set $y [expr $y / 2]
+	    set radius [expr $radius / 2]
+	    set x [expr $x / 2]  
+	    set y [expr $y / 2]
 		set this(oval) [$canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill $color -tags $id]
 		 set this(last_x) $x
 		 set this(last_y) $y
@@ -91,8 +93,8 @@ method Vaisseau dispose {} {
 	}
 
 	method VaisseauMiniMapP positionChange {x y} {
-	        set $x [expr $x / 2]  
-	        set $y [expr $y / 2]
+	        set x [expr $x / 2]  
+	        set y [expr $y / 2]
 	        set dx [expr $x - $this(last_x)]
 	        set dy [expr $y - $this(last_y)]
 	        $this(canvas) move $this(oval) $dx $dy
@@ -132,9 +134,8 @@ method Vaisseau dispose {} {
 	method VaisseauMapP constructor {control id x y radius color canvas} {
 	    this inherited $control
 	    set this(canvas) $canvas
-	    set rad [expr 2 * $radius]
 		#set this(oval) [$canvas create oval [expr $x - $rad] [expr $y - $rad] [expr $x + $rad] [expr $y + $rad] -fill $color -tags [list element $objName $control]] 
-		set this(oval) [$canvas create oval [expr $x - $rad] [expr $y - $rad] [expr $x + $rad] [expr $y + $rad] -fill $color -tags $id] 
+		set this(oval) [$canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill $color -tags $id] 
 		set this(last_x) $x
 		set this(last_y) $y
 	}

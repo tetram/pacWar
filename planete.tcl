@@ -72,7 +72,9 @@ method Planete dispose {} {
 	inherit  PlaneteMiniMapP Presentation
 	method  PlaneteMiniMapP constructor {control canvas x y radius} {
 	   this inherited $control
-	   
+	   set radius [expr $radius / 2]
+	   set x [expr $x / 2]  
+	   set y [expr $y / 2]
 	   set this(oval) [$canvas create oval [expr $x - $radius] [expr $y - $radius] [expr $x + $radius] [expr $y + $radius] -fill green -tags [list element $objName $control]]
 	   
 	   set this(last_x) $x
@@ -81,11 +83,13 @@ method Planete dispose {} {
 	}
 	
 	method PlaneteMiniMapP positionChange {x y} {
-	        set dx [expr $x - $this(last_x)]
-	        set dy [expr $y - $this(last_y)]
-	        $this(canvas) move $this(oval) $dx $dy
-	        set this(last_x) $x
-		    set this(last_y) $y
+	  set x [expr $x / 2]  
+	  set y [expr $y / 2]
+    set dx [expr $x - $this(last_x)]
+    set dy [expr $y - $this(last_y)]
+    $this(canvas) move $this(oval) $dx $dy
+    set this(last_x) $x
+    set this(last_y) $y
 	}
 
 # Agent PlaneteMap
@@ -112,10 +116,9 @@ method Planete dispose {} {
 	
 	# Presentation PlaneteMap
 	inherit PlaneteMapP Presentation
-	method PlaneteMapP constructor {control id canvas x y radius} {
+	method PlaneteMapP constructor {control id canvas x y rad} {
 	   this inherited $control
 	   set this(canvas) $canvas
-	   set rad [expr 2 * $radius]
 	   set this(oval) [$canvas create oval [expr $x - $rad] [expr $y - $rad] [expr $x + $rad] [expr $y + $rad] -fill green -tags $id]
 	   set this(last_x) $x
 		set this(last_y) $y
